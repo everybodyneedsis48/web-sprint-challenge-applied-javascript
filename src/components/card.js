@@ -15,7 +15,7 @@ const Card = (article) => {
   imgCon.classList.add('img-container');
 
   cardHeadline.textContent = article.headline
-  authorName.textContent = article.author
+  authorName.textContent = article.authorName
   authorImg.setAttribute('src', article.authorPhoto)
 
   cardDiv.appendChild(cardHeadline);
@@ -54,11 +54,15 @@ const Card = (article) => {
 const cardAppender = (selector) => {
 
   const articles = axios.get("http://localhost:5000/api/articles")
-  .then(resp => {
-    const cardsCon = document.querySelector(selector);
+  articles.then(resp => {
     const cardList = resp.data.articles;
-    const cardFunc = Card(cardList);
-    cardsCon.appendChild(cardFunc);
+    for(let key in cardList){
+      cardList[key].forEach(elem => {
+        const test = Card(elem);
+        const cardsCon = document.querySelector(selector);
+        cardsCon.appendChild(test)
+      })
+    }
   })
 
   return articles;

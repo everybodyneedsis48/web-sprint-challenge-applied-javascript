@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const Tabs = (topics) => {
 
   const topicsTab = document.createElement('div');
