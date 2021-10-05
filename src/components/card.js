@@ -1,4 +1,36 @@
+import axios from "axios";
+
 const Card = (article) => {
+
+  const cardDiv = document.createElement('div');
+  const cardHeadline = document.createElement('div');
+  const cardAuthor = document.createElement('div');
+  const imgCon = document.createElement('div');
+  const authorImg = document.createElement('img');
+  const authorName = document.createElement('span');
+
+  cardDiv.classList.add('card');
+  cardHeadline.classList.add('headline');
+  cardAuthor.classList.add('author');
+  imgCon.classList.add('img-container');
+
+  cardHeadline.textContent = article.headline
+  authorName.textContent = article.authorName
+  authorImg.setAttribute('src', article.authorPhoto)
+
+  cardDiv.appendChild(cardHeadline);
+  cardDiv.appendChild(cardAuthor);
+  cardAuthor.appendChild(imgCon);
+  imgCon.appendChild(authorImg);
+  cardAuthor.appendChild(authorName);
+
+  cardDiv.addEventListener('click', () => {
+    cardDiv.classList.toggle(console.log(cardHeadline))
+  })
+
+  return cardDiv;
+
+
   // TASK 5
   // ---------------------
   // Implement this function, which should return the markup you see below.
@@ -20,6 +52,21 @@ const Card = (article) => {
 }
 
 const cardAppender = (selector) => {
+
+  const articles = axios.get("http://localhost:5000/api/articles")
+  articles.then(resp => {
+    const cardList = resp.data.articles;
+    for(let key in cardList){
+      cardList[key].forEach(elem => {
+        const test = Card(elem);
+        const cardsCon = document.querySelector(selector);
+        cardsCon.appendChild(test)
+      })
+    }
+  })
+
+  return articles;
+
   // TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
